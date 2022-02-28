@@ -1,21 +1,18 @@
-import {
-  AuthActinEnum,
-  AuthAction,
-  AuthState,
-} from "../../../components/models/authTypes";
+import { AuthActionEnum, AuthAction, AuthState } from "../../types/authTypes";
 
 export const initialState: AuthState = {
   auth: false,
+  user_name: "",
 };
 
-export default function authReducer(
-  state = initialState,
-  action: AuthAction
-): AuthState {
+const authReducer = (state = initialState, action: AuthAction): AuthState => {
   switch (action.type) {
-    case AuthActinEnum.SET_AUTH:
+    case AuthActionEnum.SET_AUTH:
       return { ...state, auth: action.payload };
+    case AuthActionEnum.SET_NAME:
+      return { ...state, user_name: action.payload };
     default:
       return state;
   }
-}
+};
+export default authReducer;

@@ -27,7 +27,7 @@ export type PokemonSprites = Readonly<{
   front_shiny_female: null;
 }>;
 
-export type CurrentPokemonData = {
+export interface CurrentPokemonData {
   abilities: Array<PokemonAbility>;
   base_experience: number;
   forms: Array<any>;
@@ -46,7 +46,7 @@ export type CurrentPokemonData = {
   stats: any;
   types: any;
   weight: number;
-};
+}
 export type PokemonCardData = Readonly<{
   base_experience?: number;
   order?: number;

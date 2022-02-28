@@ -26,4 +26,5 @@ export const PrivateRoutes = [
   { path: RouteNames.POKEMON_LIST, element: PokemonList },
   { path: RouteNames.POKEMON_LIST_ITEM, element: PokemonListItem },
   { path: RouteNames.POKEMON_OF_THE_DAY, element: PokemonOfTheDay },
+  { path: RouteNames.LOGIN, element: Login },
 ];

@@ -1,25 +1,22 @@
-import React, { useEffect, useState, FC } from "react";
+import React, { useEffect, FC } from "react";
 import PokemonInfo from "../Pokemons/PokemonInfo";
-import { fetchPokemons } from "../../services/services";
-import { CurrentPokemonData } from "../../models/types";
 import { useParams } from "react-router";
+import { PokemonActions } from "../../../redux/actions/PokemonActions";
+import { useTypedSelector } from "../../../hooks/useTypedSelector";
+import { useDispatch } from "react-redux";
 
 const PokemonListItem: FC = () => {
-  const [pokemonData, setPokemonData] = useState<CurrentPokemonData>();
   const nameFromQuery = useParams();
+  const dispatch = useDispatch();
+  const { onePokemon } = useTypedSelector((store) => store.pokemons);
 
   useEffect(() => {
-    getPokemonData();
-  }, []);
-
-  const getPokemonData = async () => {
-    const data = await fetchPokemons(`/${nameFromQuery.id}`);
-    setPokemonData(data);
-  };
+    dispatch(PokemonActions.getOnePokemon(`${nameFromQuery.id}`));
+  }, [nameFromQuery.id, dispatch]);
 
   return (
     <>
-      <PokemonInfo data={pokemonData} />
+      <PokemonInfo data={onePokemon} />
     </>
   );
 };

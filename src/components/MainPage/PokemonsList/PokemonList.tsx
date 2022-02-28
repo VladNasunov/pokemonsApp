@@ -1,24 +1,23 @@
-import React, { useEffect, useState, FC } from "react";
-import { fetchPokemons } from "../../services/services";
-import { PokemonDataResponse } from "../../models/types";
+import { useEffect, FC } from "react";
 import { Table } from "antd";
 import { PokemonsColumns } from "./constants/TableConstants";
+import { useTypedSelector } from "../../../hooks/useTypedSelector";
+import { useDispatch } from "react-redux";
+import { PokemonActions } from "../../../redux/actions/PokemonActions";
 
 const PokemonList: FC = () => {
-  const [pokemonsData, setPokemonsData] = useState<PokemonDataResponse>();
-
-  const getPokemonData = async () => {
-    const data = await fetchPokemons();
-    setPokemonsData(data);
-  };
+  const { allPokemons } = useTypedSelector((store) => store.pokemons);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    getPokemonData();
-  }, []);
+    if (!allPokemons.results.length) {
+      dispatch(PokemonActions.getAllPokemons());
+    }
+  }, [allPokemons.results.length, dispatch]);
 
   return (
     <>
-      <Table columns={PokemonsColumns} dataSource={pokemonsData?.results} />
+      <Table columns={PokemonsColumns} dataSource={allPokemons?.results} />
     </>
   );
 };

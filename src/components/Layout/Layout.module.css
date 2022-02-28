@@ -1,0 +1,6 @@
+.layout {
+  height: calc(100vh - 133px);
+  padding: "0 50px";
+  margin-top: 64;
+  background-color: "#FF0000";
+}

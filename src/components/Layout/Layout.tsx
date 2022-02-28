@@ -1,23 +1,25 @@
-import React from "react";
+import React, { FC } from "react";
 import Layout, { Content } from "antd/lib/layout/layout";
 import Header from "./Header";
 import Footer from "./Footer";
+import styles from "./Layout.module.css";
 
 export type AppLayoutProps = Readonly<{
   children: React.ReactNode;
 }>;
 
-const AppLayout: React.FC = ({ children }) => {
+const AppLayout: FC = ({ children }) => {
   return (
     <Layout>
       <Header />
       <Content
-        className="site-layout"
+        className={`site-layout ${styles.layout}`}
         style={{
           padding: "0 50px",
           marginTop: 64,
           background: "#FF0000",
-          height: "80vh",
+          maxHeight: "78vh",
+          overflow: "scroll",
         }}
       >
         <div

@@ -1,25 +1,28 @@
-import React, { useEffect, useState, FC } from "react";
-import { fetchRandomPokemon } from "../../services/services";
-import { CurrentPokemonData } from "../../models/types";
+import { useEffect, FC, useCallback } from "react";
 import { Button } from "antd";
 import PokemonInfo from "./PokemonInfo";
+import { useDispatch } from "react-redux";
+import { PokemonActions } from "../../../redux/actions/PokemonActions";
+import { useTypedSelector } from "../../../hooks/useTypedSelector";
+import { randomPokemon } from "../../../utils/utils";
 
 const PokemonOfTheDay: FC = () => {
-  const [pokemonData, setPokemonData] = useState<CurrentPokemonData>();
+  const { onePokemon } = useTypedSelector((store) => store.pokemons);
+
+  const dispatch = useDispatch();
+
+  const getPokemonData = useCallback(() => {
+    dispatch(PokemonActions.getOnePokemon(randomPokemon()));
+  }, [dispatch]);
 
   useEffect(() => {
     getPokemonData();
-  }, []);
-
-  const getPokemonData = async () => {
-    const data = await fetchRandomPokemon();
-    setPokemonData(data);
-  };
+  }, [getPokemonData]);
 
   return (
-    <div style={{display: 'flex', flexDirection:'column'}}>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <Button onClick={getPokemonData}>Next Pokemon</Button>
-      <PokemonInfo data={pokemonData} />
+      <PokemonInfo data={onePokemon} />
     </div>
   );
 };
