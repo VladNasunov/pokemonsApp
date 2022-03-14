@@ -1,8 +1,10 @@
 import axios from "axios";
 import { AppDispatch } from "..";
-import { CurrentPokemonData, PokemonDataResponse } from "../../models/types";
+import { PokemonDataResponse } from "../../models/types";
+import { getOpponent } from "../../services/services";
 import { GetPokemonsEnum } from "../types/pokemonsTypes";
-const baseUrl: string = "https://pokeapi.co/api/v2/pokemon";
+import { baseUrl } from "../../constants";
+
 export const PokemonActions = {
   getAllPokemons:
     (url = "?limit=300&offset=200") =>
@@ -17,7 +19,7 @@ export const PokemonActions = {
       }
     },
   getOnePokemon: (name: string | number) => async (dispatch: AppDispatch) => {
-    const response = await axios.get<CurrentPokemonData>(`${baseUrl}/${name}`);
+    const response = await getOpponent(name);
     if (response.status === 200) {
       dispatch({
         type: GetPokemonsEnum.GET_ONE_POKEMON,
