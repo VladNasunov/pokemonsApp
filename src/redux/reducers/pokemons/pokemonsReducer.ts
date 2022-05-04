@@ -26,9 +26,11 @@ export default function pokemonsReducer(
 ): PokemonsState {
   switch (action.type) {
     case GetPokemonsEnum.GET_ALL_POKEMONS:
-      return { ...state, allPokemons: action.payload };
+      return { ...state, allPokemons: action.payload, loading: false };
     case GetPokemonsEnum.GET_ONE_POKEMON:
-      return { ...state, onePokemon: action.payload };
+      return { ...state, onePokemon: action.payload, loading: false };
+    case GetPokemonsEnum.LOADING:
+      return { ...state, loading: action.payload };
     default:
       return { ...state };
   }

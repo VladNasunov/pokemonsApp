@@ -1,11 +1,23 @@
-import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { PublicRoutes, PrivateRoutes, RouteNames } from "./routeMap";
 import AppLayout from "./Layout/Layout";
-import { useTypedSelector } from "../hooks/useTypedSelector";
+import { useTypedSelector, useAppDispatch } from "../hooks/useTypedSelector";
+import { authSlice } from "../store/reducers/AuthSlice";
+import { useLayoutEffect } from "react";
 
 const AppRouter = () => {
-  const { auth } = useTypedSelector((store) => store.auth);
+  const { auth } = useTypedSelector((store) => store.authReducer);
+  const dispatch = useAppDispatch();
+  const { setAuth, setName } = authSlice.actions;
+
+  useLayoutEffect(() => {
+    const userName = localStorage.getItem("name");
+    if (userName) {
+      dispatch(setAuth(true));
+      dispatch(setName(userName));
+    }
+  }, []);
+
   return (
     <AppLayout>
       {auth ? (
@@ -31,7 +43,11 @@ const AppRouter = () => {
               key={route.path}
             />
           ))}
-          <Route path="*" element={<Navigate to={RouteNames.LOGIN} />} />
+          {/* <Route path="*" element={<Navigate to={RouteNames.LOGIN} />} /> */}
+          <Route
+            path="*"
+            element={<Navigate to={RouteNames.POKEMON_LIST} />}
+          />
         </Routes>
       )}
     </AppLayout>

@@ -1,12 +1,12 @@
 import { FC } from "react";
 import { Footer } from "antd/lib/layout/layout";
 
-const AppFooter: FC = () => {
-  return (
-    <Footer style={{ textAlign: "center" }}>
-      Pokemon App ©2022 Created by Vlad Nasunov
-    </Footer>
-  );
+export type AppFooterProps = {
+  title: string;
+};
+
+const AppFooter: FC<AppFooterProps> = ({ title }) => {
+  return <Footer style={{ textAlign: "center" }}>{title}</Footer>;
 };
 
 export default AppFooter;

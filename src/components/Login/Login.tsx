@@ -1,16 +1,19 @@
 import { useState, FC } from "react";
 import { Button, Form, Input } from "antd";
-import { useDispatch } from "react-redux";
-import { AuthAction } from "../../redux/actions/AuthAction";
 import { Link } from "react-router-dom";
 import { RouteNames } from "../routeMap";
+import { useAppDispatch } from "../../hooks/useTypedSelector";
+import { authSlice } from "../../store/reducers/AuthSlice";
 
 const Login: FC = () => {
   const [nameValue, setNameValue] = useState<string>("");
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const {setAuth, setName} = authSlice.actions
+
   const login = () => {
-    dispatch(AuthAction.login());
-    dispatch(AuthAction.setUserName(nameValue));
+    dispatch(setAuth(true))
+    localStorage.setItem("name", nameValue);
+    dispatch(setName(nameValue))
   };
 
   return (
@@ -22,6 +25,7 @@ const Login: FC = () => {
         initialValues={{ remember: true }}
         onFinish={login}
         autoComplete="off"
+        style={{ marginTop: "30vh" }}
       >
         <Form.Item
           label="Username"

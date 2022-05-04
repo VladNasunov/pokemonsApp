@@ -2,7 +2,6 @@ import React, { FC } from "react";
 import Layout, { Content } from "antd/lib/layout/layout";
 import Header from "./Header";
 import Footer from "./Footer";
-import styles from "./Layout.module.css";
 
 export type AppLayoutProps = Readonly<{
   children: React.ReactNode;
@@ -13,12 +12,10 @@ const AppLayout: FC = ({ children }) => {
     <Layout>
       <Header />
       <Content
-        className={`site-layout ${styles.layout}`}
         style={{
           padding: "0 50px",
           marginTop: 64,
-          background: "#FF0000",
-          maxHeight: "78vh",
+          minHeight: "80vh",
           overflow: "scroll",
         }}
       >
@@ -29,7 +26,7 @@ const AppLayout: FC = ({ children }) => {
           {children}
         </div>
       </Content>
-      <Footer />
+      <Footer title="Pokemon App ©2022 Created by Vlad Nasunov" />
     </Layout>
   );
 };

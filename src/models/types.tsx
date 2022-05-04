@@ -17,36 +17,49 @@ export type PokemonAbility = Readonly<{
 }>;
 
 export type PokemonSprites = Readonly<{
-  back_default: string;
-  back_female: null;
-  back_shiny: string;
-  back_shiny_female: null;
   front_default: string;
-  front_female: null;
-  front_shiny: string;
-  front_shiny_female: null;
 }>;
 
-export interface CurrentPokemonData {
+export type CurrentPokemonData = {
   abilities: Array<PokemonAbility>;
   base_experience: number;
   forms: Array<any>;
-  game_indices: Array<any>;
   height: number;
-  held_item: Array<any>;
   id: number;
-  is_default: boolean;
-  location_area_encounters: string;
-  moves: Array<any>;
+  moves: Array<PokemonInfoMoves>;
   name: string;
-  order: number;
-  past_types: Array<any>;
-  species: PokemonAbility;
+  // species: PokemonAbility;
+  types: Array<PokemonInfoTypes>;
   sprites: PokemonSprites;
-  stats: any;
-  types: any;
   weight: number;
 }
+// export type CurrentPokemonData = {
+//   abilities: Array<PokemonAbility>;
+//   base_experience: number;
+//   forms: Array<any>;
+//   game_indices: Array<any>;
+//   height: number;
+//   held_item: Array<any>;
+//   id: number;
+//   is_default: boolean;
+//   location_area_encounters: string;
+//   moves: Array<PokemonInfoMoves>;
+//   name: string;
+//   order: number;
+//   past_types: Array<any>;
+//   species: PokemonAbility;
+//   sprites: PokemonSprites;
+//   stats: any;
+//   types: Array<PokemonInfoTypes>;
+//   weight: number;
+// }
+export type PokemonInfoTypes = Readonly<{
+  slot: number;
+  type: PokemonResults
+}>
+export type PokemonInfoMoves = Readonly<{
+  move: PokemonResults
+}>
 export type PokemonCardData = Readonly<{
   base_experience?: number;
   order?: number;
