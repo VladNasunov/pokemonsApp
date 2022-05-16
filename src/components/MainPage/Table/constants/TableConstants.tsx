@@ -32,3 +32,14 @@ export const PokeTableColumns: Column[] = [
     accessor: "url",
   },
 ];
+
+export const ChartTableColumns: Column[] = [
+  {
+    Header: "Date",
+    accessor: "date",
+  },
+  {
+    Header: "Value",
+    accessor: "value",
+  },
+];

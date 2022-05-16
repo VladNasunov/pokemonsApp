@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { DataType } from "./types/types";
+import { DataType, onClickType } from "./types/types";
 import { Tooltip } from "antd";
 
 export type BarChartProps = {
@@ -7,13 +7,20 @@ export type BarChartProps = {
   getX: d3.ScaleBand<string>;
   getY: d3.ScaleLinear<number, number, never>;
   chartHeight: number;
+  onClick: onClickType;
 };
 
-const BarChart: FC<BarChartProps> = ({ data, getX, getY, chartHeight }) => {
+const BarChart: FC<BarChartProps> = ({
+  data,
+  getX,
+  getY,
+  chartHeight,
+  onClick,
+}) => {
   return (
     <>
       {data?.map((item) => (
-        <g key={item.value}>
+        <g key={item.value} onClick={() => onClick(true)}>
           <Tooltip title={`${item.value} ${item.date}`}>
             <g transform={`translate(${getX(item.date)}, ${getY(item.value)})`}>
               <rect

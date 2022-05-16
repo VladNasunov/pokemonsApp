@@ -1,7 +1,8 @@
 import { FC } from "react";
 import { useFetchData } from "./hooks/useFetchData";
 import Charts from "./Charts";
-import { DataType } from "./types/types";
+import { DataType, StackedDataType } from "./types/types";
+import StackedChart from "./StackedChart";
 
 // type ChartContainerProps = {
 //   width: number;
@@ -20,6 +21,7 @@ const data: DataType[] = [
   { date: "Apr", value: 28 },
   { date: "May", value: 15 },
 ];
+
 
 const ChartContainer: FC = () => {
   const chartData = useFetchData();

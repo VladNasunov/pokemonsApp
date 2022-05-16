@@ -9,7 +9,7 @@ import { useTableSort } from "../../../hooks/useTableSort";
 type TableWithSortingProps<T> = {
   data: T[];
   columns: Column[]
-  isLoading: boolean;
+  isLoading?: boolean;
 };
 
 const TableWithSorting = <T,>({

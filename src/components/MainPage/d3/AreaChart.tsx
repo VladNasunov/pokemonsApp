@@ -1,15 +1,16 @@
 import React, { FC } from "react";
 import * as d3 from "d3";
-import { DataType } from "./types/types";
+import { DataType, onClickType } from "./types/types";
 import { Tooltip } from "antd";
 
 export type AreaChartProps = {
   data: DataType[];
   getX: d3.ScaleBand<string>;
   getY: d3.ScaleLinear<number, number, never>;
+  onClick: onClickType;
 };
 
-const AreaChart: FC<AreaChartProps> = ({ data, getX, getY }) => {
+const AreaChart: FC<AreaChartProps> = ({ data, getX, getY, onClick }) => {
   const areaPath = d3
     .area<DataType>()
     .x((d) => getX(d.date)! + getX.bandwidth() / 2)
@@ -26,7 +27,7 @@ const AreaChart: FC<AreaChartProps> = ({ data, getX, getY }) => {
         d={areaPath!}
       />
       {data?.map((item) => (
-        <g key={item.value}>
+        <g key={item.value} onClick={() => onClick(true)}>
           <Tooltip title={`${item.value} ${item.date}`}>
             <circle
               r="4"

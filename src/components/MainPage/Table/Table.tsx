@@ -1,5 +1,4 @@
-import { FC, PropsWithChildren, useEffect, useState } from "react";
-import { JsonResponse } from "../../../models/tableTypes";
+import { useEffect } from "react";
 import { useTable, useSortBy, usePagination, SortingRule } from "react-table";
 import { Column } from "react-table";
 import TableHeader from "./TableHeader";
@@ -12,7 +11,7 @@ type TableProps<T> = {
   data: T[];
   columns: Column[];
   sort?: (sortBy: SortingRule<T>, data: T[]) => void;
-  isLoading: boolean;
+  isLoading?: boolean;
 };
 
 const Table = <T,>({

@@ -1,15 +1,16 @@
 import React, { FC } from "react";
 import * as d3 from "d3";
-import { DataType } from "./types/types";
+import { DataType, onClickType } from "./types/types";
 import { Tooltip } from "antd";
 
 export type LineChartProps = {
   data: DataType[];
   getX: d3.ScaleBand<string>;
   getY: d3.ScaleLinear<number, number, never>;
+  onClick: onClickType;
 };
 
-const LineChart: FC<LineChartProps> = ({ data, getX, getY }) => {
+const LineChart: FC<LineChartProps> = ({ data, getX, getY, onClick }) => {
   const linePath = d3
     .line<DataType>()
     .x((d) => getX(d.date)! + getX.bandwidth() / 2)
@@ -19,7 +20,7 @@ const LineChart: FC<LineChartProps> = ({ data, getX, getY }) => {
     <>
       <path strokeWidth={2} fill="none" stroke="gold" d={linePath!} />
       {data?.map((item) => (
-        <g key={item.value}>
+        <g key={item.value} onClick={() => onClick(true)}>
           <Tooltip title={`${item.value} ${item.date}`}>
             <circle
               r="4"
