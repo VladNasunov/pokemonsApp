@@ -1,6 +1,7 @@
 import axios from "axios";
 import { AppDispatch } from "..";
-import { CurrentPokemonData, PokemonDataResponse } from "../../models/types";
+import { PokemonDataResponse } from "../../models/types";
+import { getOpponent } from "../../services/services";
 import { GetPokemonsEnum } from "../types/pokemonsTypes";
 
 const baseUrl: string = "https://pokeapi.co/api/v2/pokemon";
