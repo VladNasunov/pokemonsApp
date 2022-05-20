@@ -1,77 +1,76 @@
-import { FC, useEffect, useRef } from "react";
-import { StackedDataType, onClickType, dataValues } from "./types/types";
+import React, { FC, useRef, useEffect } from "react";
+import { colorType, keyType, stackedData } from "./Stacked2Container";
 import * as d3 from "d3";
+import { useXAxis } from "./hooks/useXAxis";
+import { useYScale } from "./hooks/useYScale";
+import { useYAxis } from "./hooks/useYAxis";
+import { stackOrderAscending } from "d3";
+import { useXScale } from "./hooks/useXScale";
 
-export type StackedChartProps = {
-  data: StackedDataType[];
-  stackedDataValues: dataValues[];
-  getX: d3.ScaleBand<string>;
-  getY: d3.ScaleLinear<number, number, never>;
+export type Chacked2Props = {
+  data: stackedData[];
+  keys: keyType[];
+  colors: colorType;
 };
 
-const StackedChart: FC<StackedChartProps> = ({
-  data,
-  getX,
-  getY,
-  stackedDataValues,
-}) => {
+const width = 600;
+const height = 400;
+const left = 50;
+const top = 0;
+const Chacked2: FC<Chacked2Props> = ({ data, keys, colors }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
-  const wrapperRef = useRef<SVGSVGElement | null>(null);
-  const width = 400;
-  const height = 300;
+  const yAxisRef = useRef<SVGSVGElement | null>(null);
+  const xAxisRef = useRef<SVGSVGElement | null>(null);
+
+  const xScale = useXScale(
+    data.map((item) => item.year),
+    width
+  );
+
   const stackGenerator = d3
-    .stack<StackedDataType>()
-    .keys(["first", "second", "third"]);
-
+    .stack<stackedData>()
+    .keys(keys)
+    .order(stackOrderAscending);
   const layers = stackGenerator(data);
-  useEffect(() => {
-    const svg = d3.select(svgRef.current);
+  const extent = [
+    0,
+    d3.max(layers, (layer) => d3.max(layer, (sequence) => sequence[1])),
+  ];
 
-    svg
-      .selectAll(".layer")
-      .data(layers)
-      .join("g")
-      .attr("class", "layer")
-      .selectAll("rect")
-      .data((layer) => layer)
-      .join("rect")
-      .attr("fill", "blue")
-      .attr("x", (seq) => getX(seq.data.date)!)
-      .attr("width", getX.bandwidth())
-      .attr("y", (seq) => {
-        return getY(seq[1]);
-      })
-      .attr("heigth", (seq) => {
-        return getY(seq[0] - seq[1]);
-      });
-  }, []);
+  const yScale = useYScale(height, extent as number[]);
+
+  useXAxis(xAxisRef.current!, xScale, yScale);
+  useYAxis(yAxisRef.current!, yScale);
+
+  d3.select(svgRef.current)
+    .selectAll(".layer")
+    .data(layers)
+    .join("g")
+    .attr("class", "layer")
+    .attr("fill", (layer) => colors[layer.key as keyof colorType])
+    .selectAll("rect")
+    .data((layer) => layer)
+    .join("rect")
+    .attr("x", (seq) => xScale(seq.data.year)!)
+    .attr("width", xScale.bandwidth())
+    .attr("y", (seq) => {
+      return yScale(seq[1]);
+    })
+    .attr("height", (seq) => {
+      return yScale(seq[0]) - yScale(seq[1]);
+    });
+
   return (
-    <>
-      <g ref={svgRef} />
-    
-      {/* {layers.map((item) => {
-        item.map((item1) => {
-          console.log(item1[0]);
-          return (
-            <>
-              <g ref={svgRef} />
-              <g
-                transform={`translate(${getX(item1.date)}, ${getY(item.value)})`}
-              >
-                <rect
-                  width={getX.bandwidth() - 20}
-                  height={chartHeight - getY(item.value)}
-                  fill="blue"
-                  opacity="0.4"
-                  transform={`translate(${10})`}
-                />
-              </g>
-            </>
-          );
-        });
-      })} */}
-    </>
+    <div>
+      <svg width={width} height={height} overflow="visible">
+        <g transform={`translate(${left},${top})`}>
+          <g ref={xAxisRef} />
+          <g ref={yAxisRef} />
+          <g ref={svgRef} />
+        </g>
+      </svg>
+    </div>
   );
 };
 
-export default StackedChart;
+export default Chacked2;

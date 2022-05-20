@@ -46,7 +46,7 @@ const AppRouter = () => {
           {/* <Route path="*" element={<Navigate to={RouteNames.LOGIN} />} /> */}
           <Route
             path="*"
-            element={<Navigate to={RouteNames.POKEMON_LIST} />}
+            element={<Navigate to={RouteNames.CHARTS} />}
           />
         </Routes>
       )}

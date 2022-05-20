@@ -7,7 +7,7 @@ export type LineChartProps = {
   data: DataType[];
   getX: d3.ScaleBand<string>;
   getY: d3.ScaleLinear<number, number, never>;
-  onClick: onClickType;
+  onClick?: onClickType;
 };
 
 const LineChart: FC<LineChartProps> = ({ data, getX, getY, onClick }) => {
@@ -20,7 +20,7 @@ const LineChart: FC<LineChartProps> = ({ data, getX, getY, onClick }) => {
     <>
       <path strokeWidth={2} fill="none" stroke="gold" d={linePath!} />
       {data?.map((item) => (
-        <g key={item.value} onClick={() => onClick(true)}>
+        <g key={item.value} onClick={() => onClick && onClick(true)}>
           <Tooltip title={`${item.value} ${item.date}`}>
             <circle
               r="4"

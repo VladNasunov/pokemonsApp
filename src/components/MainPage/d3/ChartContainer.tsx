@@ -1,18 +1,8 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useFetchData } from "./hooks/useFetchData";
 import Charts from "./Charts";
-import { DataType, StackedDataType } from "./types/types";
-import StackedChart from "./StackedChart";
-
-// type ChartContainerProps = {
-//   width: number;
-//   height: number;
-//   left: number;
-//   right: number;
-//   bottom: number;
-//   top: number;
-//   fill: string;
-// };
+import { DataType } from "./types/types";
+import Stacked2 from "./Stacked2Container";
 
 const data: DataType[] = [
   { date: "Jan", value: 40 },
@@ -22,11 +12,11 @@ const data: DataType[] = [
   { date: "May", value: 15 },
 ];
 
-
 const ChartContainer: FC = () => {
   const chartData = useFetchData();
   return (
     <>
+      <Stacked2 />
       <Charts
         data={chartData}
         ChartWidth={1000}

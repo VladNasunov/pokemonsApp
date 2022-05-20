@@ -1,9 +1,11 @@
-import { Modal } from "antd";
-import * as d3 from "d3";
 import { FC, useRef, useState } from "react";
 import ChartModal from "./ChartModal";
 import CrateCharts from "./CrateCharts";
-import StackedChart from "./StackedChart";
+import { useData } from "./hooks/useData";
+import { useXAxis } from "./hooks/useXAxis";
+import { useXScale } from "./hooks/useXScale";
+import { useYAxis } from "./hooks/useYAxis";
+import { useYScale } from "./hooks/useYScale";
 import { DataType, dataValues, StackedDataType } from "./types/types";
 
 const stackedData: StackedDataType[] = [
@@ -38,50 +40,35 @@ const Charts: FC<ChartsProps> = ({
   top,
   type,
 }) => {
-  const yDomainArray = data.map((item) => item.value);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const getX = d3
-    .scaleBand()
-    .domain(data.map((item) => item.date))
-    .range([0, ChartWidth])
-    .padding(0.25);
+  const yDomainArray = data.map((item) => item.value);
+  const xdomainData = data.map((item) => item.date);
+  const xAxisRef = useRef<SVGSVGElement | null>(null);
+  const yAxisRef = useRef<SVGSVGElement | null>(null);
 
-  const getXAxis = (ref: SVGSVGElement) => {
-    const xAxis = d3.axisBottom(getX);
-    d3.select(ref).call(xAxis);
-  };
+  const preparedData = useData(data, type);
 
-  const getY = d3
-    .scaleLinear()
-    .domain([0, Math.max(...yDomainArray)])
-    .range([chartHeight, 0]);
+  const xScale = useXScale(xdomainData, ChartWidth);
+  const yScale = useYScale(chartHeight, [0, Math.max(...yDomainArray)]);
 
-  const getYAxis = (ref: SVGSVGElement) => {
-    const yAxis = d3.axisLeft(getY).tickSize(-ChartWidth).tickPadding(8);
-    d3.select(ref).call(yAxis);
-  };
+  useXAxis(xAxisRef.current!, xScale, yScale);
+  useYAxis(yAxisRef.current!, yScale);
 
   return (
     <>
       <div>
         <svg width={1000} height={350} overflow="visible">
           <g transform={`translate(${left},${top})`}>
-            <g ref={getXAxis} transform={`translate(0,${getY(0)})`} />
-            <g ref={getYAxis} />
+            <g ref={xAxisRef} transform={`translate(0,${yScale(0)})`} />
+            <g ref={yAxisRef} />
             <CrateCharts
               data={data}
               chartHeight={chartHeight}
-              getX={getX}
-              getY={getY}
+              getX={xScale}
+              getY={yScale}
               type={type}
               onClick={setIsModalVisible}
             />
-              {/* <StackedChart
-                data={stackedData}
-                getX={getX}
-                getY={getY}
-                stackedDataValues={stackedDataValues}
-              /> */}
           </g>
         </svg>
       </div>

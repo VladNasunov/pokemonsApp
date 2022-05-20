@@ -1,6 +1,6 @@
 import axios from "axios";
 import { AppDispatch } from "..";
-import { PokemonDataResponse } from "../../models/types";
+import { PokemonDataResponse, CurrentPokemonData } from "../../models/types";
 import { getOpponent } from "../../services/services";
 import { GetPokemonsEnum } from "../types/pokemonsTypes";
 

@@ -1,5 +1,5 @@
 import { Modal } from "antd";
-import React, { FC } from "react";
+import { FC } from "react";
 import { ChartTableColumns } from "../Table/constants/TableConstants";
 import TableWithSorting from "../Table/TableWithSorting";
 import { DataType, onClickType } from "./types/types";

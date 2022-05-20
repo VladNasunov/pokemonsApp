@@ -11,7 +11,7 @@ type RenderChartProps = {
   getX: d3.ScaleBand<string>;
   getY: d3.ScaleLinear<number, number, never>;
   type: string;
-  onClick: onClickType;
+  onClick?: onClickType;
 };
 
 const createChart = (
@@ -35,7 +35,7 @@ const createChart = (
   }
 };
 
-const RenderChart: FC<RenderChartProps> = ({
+const CreateCharts: FC<RenderChartProps> = ({
   data,
   getX,
   getY,
@@ -46,4 +46,4 @@ const RenderChart: FC<RenderChartProps> = ({
   return createChart(type, { data, getX, getY, chartHeight, onClick });
 };
 
-export default RenderChart;
+export default CreateCharts;

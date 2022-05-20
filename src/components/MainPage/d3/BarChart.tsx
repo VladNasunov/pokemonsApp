@@ -7,7 +7,7 @@ export type BarChartProps = {
   getX: d3.ScaleBand<string>;
   getY: d3.ScaleLinear<number, number, never>;
   chartHeight: number;
-  onClick: onClickType;
+  onClick?: onClickType;
 };
 
 const BarChart: FC<BarChartProps> = ({
@@ -20,7 +20,7 @@ const BarChart: FC<BarChartProps> = ({
   return (
     <>
       {data?.map((item) => (
-        <g key={item.value} onClick={() => onClick(true)}>
+        <g key={item.value} onClick={() => onClick && onClick(true)}>
           <Tooltip title={`${item.value} ${item.date}`}>
             <g transform={`translate(${getX(item.date)}, ${getY(item.value)})`}>
               <rect

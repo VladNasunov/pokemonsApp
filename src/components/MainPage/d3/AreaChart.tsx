@@ -7,7 +7,7 @@ export type AreaChartProps = {
   data: DataType[];
   getX: d3.ScaleBand<string>;
   getY: d3.ScaleLinear<number, number, never>;
-  onClick: onClickType;
+  onClick?: onClickType;
 };
 
 const AreaChart: FC<AreaChartProps> = ({ data, getX, getY, onClick }) => {
@@ -27,7 +27,7 @@ const AreaChart: FC<AreaChartProps> = ({ data, getX, getY, onClick }) => {
         d={areaPath!}
       />
       {data?.map((item) => (
-        <g key={item.value} onClick={() => onClick(true)}>
+        <g key={item.value} onClick={() => onClick && onClick(true)}>
           <Tooltip title={`${item.value} ${item.date}`}>
             <circle
               r="4"
